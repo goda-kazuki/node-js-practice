@@ -1,12 +1,19 @@
-// httpモジュールを読み込み、インスタンスを生成
-var http = require('http');
+var express = require('express');
+var app = express();
 
-// HTTPサーバーのイベントハンドラを定義
-http.createServer(function (req, res) {
-    // HTTPヘッダを出力
-    res.writeHead(200, {'Content-Type': 'text/plain'});
+app.use(express.static("web"));
 
-    // レスポンスの中身を出力
-    res.end('Hello World\n');
+var listener = app.listen(3000, () => console.log(listener.address().port));
 
-}).listen(8000, '127.0.0.1');
+app.get('/', function (req, res) {
+    res.send('ページが表示されました！');
+});
+
+app.get("/api/v1/list",function (req,res) {
+    const todoList=[
+        {title:"javascriptの勉強",done:true},
+        {title:"Node.jsを勉強",done:true},
+        {title:"Web APIを作る",done:false},
+    ];
+    res.json(todoList);
+});
